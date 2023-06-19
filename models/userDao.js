@@ -51,7 +51,6 @@ const signUp = async (email, name, kakaoId, gender, ageRange, profileImage) => {
     ) VALUES (?, ?, ?, ?, ?, ?)`,
     [email, name, kakaoId, gender, ageRange, profileImage]
   );
-
   return getUserById(kakaoId);
 };
 
