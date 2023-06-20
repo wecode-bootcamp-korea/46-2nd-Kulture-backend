@@ -10,7 +10,8 @@ const getUserById = async (kakaoId) => {
       nickname,
       gender,
       age_range,
-      profile_image_url
+      profile_image_url,
+      event_token
     FROM users
     WHERE kakao_id = ?`,
     [kakaoId]

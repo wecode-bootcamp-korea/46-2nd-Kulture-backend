@@ -19,7 +19,7 @@ const signInKakao = async (kakaoToken) => {
   const kakaoId = data.id;
   const gender = data.kakao_account.gender;
   const ageRange = data.kakao_account.age_range;
-  const profileImage = data.kakao_account.thumbnail_image_url;
+  const profileImage = data.properties.profile_image;
 
   if (!name || !email || !kakaoId) throw new Error("KEY_ERROR", 400);
 
@@ -31,7 +31,7 @@ const signInKakao = async (kakaoToken) => {
   }
 
   const accessToken = jwt.sign(
-    { id: user.id },
+    { id: user.id, kakaoId: user.kakaoId },
     process.env.JWT_SECRET,
     {
       algorithm: process.env.JWT_ALGORITHM,
