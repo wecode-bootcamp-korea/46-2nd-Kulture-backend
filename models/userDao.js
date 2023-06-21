@@ -1,20 +1,21 @@
 const appDataSource = require("./dataSource");
 
 const getUserById = async (kakaoId) => {
-  const users = await appDataSource.query(
+  const [ users ] = await appDataSource.query(
     `
     SELECT
-        kakao_id,
-        email,
-        nickname,
-        gender,
-        age_range,
-        profile_image_url
+      id,
+      kakao_id,
+      email,
+      nickname,
+      gender,
+      age_range,
+      profile_image_url
     FROM users
-    WHERE kakao_id=?`,
+    WHERE kakao_id = ?`,
     [kakaoId]
   );
-  return users[0];
+  return users
 };
 
 const signUp = async (email, name, kakaoId, gender, ageRange, profileImage) => {
