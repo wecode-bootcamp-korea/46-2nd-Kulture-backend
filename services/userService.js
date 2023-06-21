@@ -23,11 +23,11 @@ const signInKakao = async (kakaoToken) => {
 
   if (!name || !email || !kakaoId) throw new Error("KEY_ERROR", 400);
 
-  let user = await userDao.getUserById(kakaoId);
+  let user = await userDao.getUserByKakaoId(kakaoId);
 
   if (!user) {
     await userDao.signUp(email, name, kakaoId, gender, ageRange, profileImage);
-    user = await userDao.getUserById(kakaoId);
+    user = await userDao.getUserByKakaoId(kakaoId);
   }
 
   const accessToken = jwt.sign(
@@ -42,11 +42,16 @@ const signInKakao = async (kakaoToken) => {
   return accessToken;
 };
 
-const getUserById = async (kakaoId) => {
-  return await userDao.getUserById(kakaoId);
+const getUserById = async (id) => {
+  return await userDao.getUserById(id);
+};
+
+const getUserByKakaoId = async (kakaoId) => {
+  return await userDao.getUserByKakaoId(kakaoId);
 };
 
 module.exports = {
   signInKakao,
   getUserById,
+  getUserByKakaoId,
 };
