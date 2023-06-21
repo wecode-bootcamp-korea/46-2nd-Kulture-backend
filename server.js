@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const { createApp } = require("./app.js");
 const appDataSource = require("./models/dataSource.js");
+const { scheduleJob } = require("./utils/schedule.js")
 
 const startServer = async () => {
     const app = createApp();
@@ -15,6 +16,7 @@ const startServer = async () => {
       console.error("Error occurred during Data Source initialization", err);
       appDataSource.destroy();
     });
+    scheduleJob()
 
     app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
 
