@@ -31,7 +31,7 @@ const signInKakao = async (kakaoToken) => {
   }
 
   const accessToken = jwt.sign(
-    { userId: user.userId },
+    { id: user.id },
     process.env.JWT_SECRET,
     {
       algorithm: process.env.JWT_ALGORITHM,
@@ -42,6 +42,11 @@ const signInKakao = async (kakaoToken) => {
   return accessToken;
 };
 
+const getUserById = async (kakaoId) => {
+  return await userDao.getUserById(kakaoId);
+};
+
 module.exports = {
   signInKakao,
+  getUserById,
 };
