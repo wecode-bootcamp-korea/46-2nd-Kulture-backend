@@ -1,5 +1,9 @@
 const { eventDao } = require("../models");
 
+const getEventDetail = async (eventId) => {
+  return eventDao.getEventDetail(eventId);
+};
+
 const getEventList = async (
   categoryId,
   eventId,
@@ -30,4 +34,5 @@ const getEventList = async (
 };
 module.exports = {
   getEventList,
+  getEventDetail,
 };
