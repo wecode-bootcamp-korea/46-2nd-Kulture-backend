@@ -1,6 +1,49 @@
 const appDataSource = require("./dataSource");
 const CustomQueryBuilder = require("./queryBuilder");
 
+const getEventDetail = async (eventId) => {
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  try {
+    const result = await appDataSource.query(
+      `
+         SELECT
+         events.id,
+         events.category_id,
+         events.name,
+         events.thumbnail_images_url,
+         events.description,
+         ROUND(events.start_events_token, 0) as startToken,
+         ROUND(events.highest_events_token, 0) as highestToken,
+         events.location,
+         events.latitude,
+         events.longitude,
+         events.age_range_id,
+         events.country_id,
+         events.event_start_date,
+         events.auction_end_date,
+         events.total_quantity,
+         events.remaining_quantity,
+         JSON_ARRAYAGG(
+          JSON_OBJECT(
+            "y", bid.bidding_events_token,
+            "x", DATE_FORMAT(bid.created_at,'%H:%i:%s')
+          )
+        ) AS data
+        FROM events
+        LEFT JOIN bid ON events.id = bid.event_id
+        WHERE events.id = ?
+        GROUP BY events.id;
+         `,
+      [eventId, oneWeekAgo]
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 const getEventList = async (
   categoryId,
   eventId,
@@ -86,4 +129,5 @@ const getEventList = async (
 
 module.exports = {
   getEventList,
+  getEventDetail,
 };
