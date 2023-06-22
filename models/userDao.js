@@ -54,8 +54,33 @@ const signUp = async (email, name, kakaoId, gender, ageRange, profileImage) => {
   return getUserById(kakaoId);
 };
 
+const userInfo = async (userId) => {
+  try {
+    const result = await appDataSource.query(`
+      SELECT
+        nickname,
+        profile_image_url,
+        email,
+        age_range,
+        gender,
+        event_token
+      FROM users
+      WHERE id = ?
+      `, [userId]
+    );
+
+    return result
+        } catch {
+          const error = new Error("dataSource Error");
+          error.statusCode = 400;
+
+          throw error;
+        }
+}
+
 module.exports = {
   getUserById,
   signUp,
   getUserByKakaoId,
+  userInfo
 };

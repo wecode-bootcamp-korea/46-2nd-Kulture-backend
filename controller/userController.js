@@ -21,6 +21,14 @@ const signInKakao = catchAsync(async (req, res, next) => {
     .json({ message: "login Success", accessToken: jwtToken });
 });
 
+const userInfo = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+  const userInfo = await userService.userInfo(userId);
+
+  return res.json(userInfo)
+})
+
 module.exports = {
   signInKakao,
+  userInfo
 };

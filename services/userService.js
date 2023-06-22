@@ -50,8 +50,13 @@ const getUserByKakaoId = async (kakaoId) => {
   return await userDao.getUserByKakaoId(kakaoId);
 };
 
+const userInfo = async(userId) => {
+  return await userDao.userInfo(userId)
+}
+
 module.exports = {
   signInKakao,
   getUserById,
   getUserByKakaoId,
+  userInfo,
 };
