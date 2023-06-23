@@ -8,13 +8,13 @@ const getBidInfo = async (userId) => {
   return await bidDao.getBidInfo(userId);
 };
 
-const createBid = async (userId, eventId, quantity, biddingEventsToken) => {
+const createBid = async (userId, eventId, bidId, quantity, biddingEventsToken) => {
   const userToken = await getUserById(userId);
 
   if (userToken < biddingEventsToken) {
     throw new Error("Please Charge the Token");
   }
-  return await bidDao.createBid(userId, eventId, quantity, biddingEventsToken);
+  return await bidDao.createBid(userId, eventId, bidId, quantity, biddingEventsToken);
 };
 
 const validateToken = async (eventId, biddingEventsToken) => {
