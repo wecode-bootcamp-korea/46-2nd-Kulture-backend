@@ -1,8 +1,11 @@
 const { bidDao } = require("../models");
-const { getUserById } = require("./userService");
 
 const deleteBid = async (userId, eventId) => {
-  return await bidDao.deleteBid(userId, eventId)
+  return await bidDao.deleteBid(userId, eventId);
+};
+
+const getBidInfo = async (userId) => {
+  return await bidDao.getBidInfo(userId);
 };
 
 const createBid = async (userId, eventId, quantity, biddingEventsToken) => {
@@ -16,15 +19,16 @@ const createBid = async (userId, eventId, quantity, biddingEventsToken) => {
 
 const validateToken = async (eventId, biddingEventsToken) => {
   const tokenExists = await checkEventsToken(eventId, biddingEventsToken);
-  
+
   if (!tokenExists) {
     throw new Error("Please re-enter token");
   }
-  return await bidDao.checkEventsToken(eventId, biddingEventsToken)
+  return await bidDao.checkEventsToken(eventId, biddingEventsToken);
 };
 
 module.exports = {
   deleteBid,
   createBid,
   validateToken,
-}
+  getBidInfo,
+};
