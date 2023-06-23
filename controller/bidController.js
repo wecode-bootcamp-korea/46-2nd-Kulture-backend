@@ -1,10 +1,10 @@
 const { bidService } = require("../services");
 const { catchAsync } = require("../utils/error");
 
-const deleteBid = catchAsync(async(req, res) => {
-  try{
-    const userId = req.user.id
-    const { eventId } =req.params;
+const deleteBid = catchAsync(async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { eventId } = req.params;
 
     await bidService.deleteBid(userId, eventId);
 
@@ -13,8 +13,15 @@ const deleteBid = catchAsync(async(req, res) => {
     console.log(error);
     res.statusCode(error.statusCode).json({ message: error.message });
   }
-})
+});
 
+const getBidInfo = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+
+  const result = await bidService.getBidInfo(userId);
+
+  return res.status(200).json(result);
+});
 
 const createBid = catchAsync(async (req, res) => {
   try {
@@ -30,7 +37,7 @@ const createBid = catchAsync(async (req, res) => {
       bidStatusCode
     );
 
-    res.status(201).json({ message: " Create Bid "});
+    res.status(201).json({ message: " Create Bid " });
   } catch (error) {
     console.log(error);
     res.status(error.statusCode).json({ message: error.message });
@@ -40,4 +47,5 @@ const createBid = catchAsync(async (req, res) => {
 module.exports = {
   deleteBid,
   createBid,
-}
+  getBidInfo,
+};
