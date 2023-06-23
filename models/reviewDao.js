@@ -35,6 +35,45 @@ const getReview = async (eventId, orderBy) => {
       return list
 };
 
+const createReview = async (userId, eventId, content, imageUrls) => {
+  const queryRunner = appDataSource.createQueryRunner();
+
+  await queryRunner.connect();
+  await queryRunner.startTransaction();
+
+  try {
+    const reviewId = await appDataSource.query(
+      `
+    INSERT INTO reviews
+      (user_id,
+      event_id,
+      content)
+    VALUES (?, ?, ?) 
+    `,
+      [userId, eventId, content]
+    );
+
+    for (const imageUrl of imageUrls) {
+      await appDataSource.query(
+        `INSERT INTO review_images
+        (review_id,
+          image_url)
+        VALUES(?,?)`,
+        [reviewId.insertId, imageUrl]
+      );
+    }
+
+    await queryRunner.commitTransaction();
+    return reviewId.insertId;
+  } catch (err) {
+    await queryRunner.rollbackTransaction();
+    throw err;
+  } finally {
+    await queryRunner.release();
+  }
+};
+
 module.exports = {
   getReview,
-};
+  createReview,
+}
