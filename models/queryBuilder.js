@@ -38,11 +38,11 @@ class CustomQueryBuilder {
       case "priceAsc":
         return "start_events_token ASC";
       case "priceDesc":
-        return "start_events_token DESC";
+        return "highest_events_token DESC";
       case "dateAsc":
         return "event_start_date ASC";
       default:
-        return "id ASC";
+        return "e.id ASC";
     }
   }
 

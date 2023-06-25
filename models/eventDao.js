@@ -62,7 +62,7 @@ const getEventList = async (
     builder
       .select(
         `
-        e.id,
+        e.id as event_id,
         ROUND(e.start_events_token, 0) as startToken,
         ROUND(e.highest_events_token, 0) as highestToken,
         e.name as eventName,
