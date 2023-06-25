@@ -9,6 +9,26 @@ const getReview = catchAsync(async (req, res) => {
   res.status(200).json(review);
 });
 
+const deleteReview = catchAsync(async(req, res) => {
+  try{
+    const userId = req.user.id
+    const { reviewId } = req.params;
+
+    if (!userId || !reviewId) {
+      const error = new Error("KEY_ERROR");
+      error.statusCode = 400;
+  
+      throw error;
+    }
+
+    await reviewService.deleteReview(userId, reviewId);
+
+    res.status(204).json();
+  } catch (error) {
+    console.log(error);
+    res.statusCode(err.statusCode).json({ message: error.message })
+  }
+})
 
 const createReview = catchAsync(async (req, res) => {
   const userId = req.user.id;
@@ -38,4 +58,5 @@ const createReview = catchAsync(async (req, res) => {
 module.exports = {
   getReview,
   createReview,
+  deleteReview,
 }

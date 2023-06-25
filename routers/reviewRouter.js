@@ -8,5 +8,6 @@ const router = express.Router();
 router.get("/:eventId", reviewController.getReview);
 router.get("", reviewController.getReview);
 router.post("", validateToken, fileUpload.array('imageUrls', 3), reviewController.createReview);
+router.delete("/:reviewId", validateToken, reviewController.deleteReview)
 
 module.exports = router;
