@@ -15,7 +15,12 @@ const createReview = async (userId, eventId, content, imageUrls) => {
   return createReview
 }
 
+const deleteReview = async( userId, reviewId) => {
+  return await reviewDao.deleteReview(userId, reviewId)
+};
+
 module.exports = {
   getReview,
   createReview,
+  deleteReview,
 }

@@ -3,9 +3,9 @@ const express = require("express");
 const userRouter = require("./userRouter");
 const eventRouter = require("./eventRouter");
 const bidRouter = require("./bidRouter");
-const wishlistRouter = require("./wishlistRouter")
+const wishlistRouter = require("./wishlistRouter");
 const orderRouter = require("./orderRouter");
-const reviewRouter = require("./reviewRouter")
+const reviewRouter = require("./reviewRouter");
 
 const router = express.Router();
 

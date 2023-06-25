@@ -73,7 +73,39 @@ const createReview = async (userId, eventId, content, imageUrls) => {
   }
 };
 
+const deleteReview = async(userId, reviewId) => {
+  const queryRunner = appDataSource.createQueryRunner()
+
+  await queryRunner.connect()
+  await queryRunner.startTransaction()
+
+  try {
+    await queryRunner.query(`
+      DELETE
+      FROM review_images
+      WHERE review_id = ?
+      `, [reviewId]
+    );
+    
+    await queryRunner.query(`
+      DELETE FROM reviews
+      WHERE id = ? AND user_id = ?
+      `, [reviewId, userId]
+      );
+
+    await queryRunner.commitTransaction();
+
+      return;
+  } catch (err) {
+    await queryRunner.rollbackTransaction()
+    throw err
+  } finally {
+    await queryRunner.release()
+  }
+}
+
 module.exports = {
   getReview,
   createReview,
-}
+  deleteReview,
+};
