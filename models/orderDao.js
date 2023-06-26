@@ -6,6 +6,7 @@ const getOrderInfo = async (userId) => {
       `
         SELECT 
         orders.id,
+        order_events.event_id,
         events.name,
         events.thumbnail_images_url as image_url,
         events.location,
