@@ -1,4 +1,3 @@
-// paymentDao.js
 const appDataSource = require("./dataSource");
 
 const createCardPayment = async (userId, paymentData) => {
