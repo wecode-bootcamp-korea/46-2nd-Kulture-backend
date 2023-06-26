@@ -46,7 +46,7 @@ const getWishlist = async (userId) => {
     const result = await appDataSource.query(
       `
     SELECT
-      events.id,
+      wishlists.event_id,
       events.name,
       events.thumbnail_images_url,
       events.remaining_quantity,
