@@ -1,4 +1,5 @@
 const appDataSource = require("./dataSource");
+const CustomQueryBuilder = require("./queryBuilder");
 
 const createWishlist = async (userId, eventId) => {
   try {
@@ -39,26 +40,33 @@ const deleteWishlist = async (userId, eventIds) => {
   }
 };
 
-
-
-const getWishlist = async (userId) => {
+const getWishlist = async (userId, limit, offset) => {
   try {
-    const result = await appDataSource.query(
-      `
-    SELECT
-      wishlists.event_id,
-      events.name,
-      events.thumbnail_images_url,
-      events.remaining_quantity,
-      events.auction_end_date,
-      events.start_events_token
-    FROM wishlists
-    INNER JOIN events ON events.id = wishlists.event_id
-    WHERE wishlists.user_id = ?
-      `,
-      [userId]
+    let Builder = new CustomQueryBuilder();
+    Builder
+      .select(
+        `
+        wishlists.event_id,
+        events.name,
+        events.thumbnail_images_url,
+        events.remaining_quantity,
+        events.auction_end_date,
+        events.start_events_token
+        `
+      )
+      .from(`wishlists`)
+      .join(`INNER JOIN events ON events.id = wishlists.event_id`)
+      .where(`wishlists.user_id = ${userId}`)
+      .limit(limit, offset);
+
+    const wishlistQuery = Builder.build();
+
+    const wishlist = await appDataSource.query(
+      wishlistQuery.query,
+      wishlistQuery.parameters
     );
-    return result;
+
+    return wishlist;
   } catch (err) {
     const error = new Error("dataSource Error");
     error.statusCode = 400;

@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1403.0",
+    "aws-sdk": "^2.1405.0",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "dbmate": "^2.4.0",

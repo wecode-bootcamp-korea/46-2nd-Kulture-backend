@@ -8,8 +8,8 @@ const deleteWishlist = async (userId, eventIds) => {
   return await wishlistDao.deleteWishlist(userId, eventIds);
 };
 
-const getWishlist = async (userId) => {
-  return await wishlistDao.getWishlist(userId);
+const getWishlist = async (userId, limit, offset) => {
+  return await wishlistDao.getWishlist(userId, limit, offset);
 };
 
 module.exports = {

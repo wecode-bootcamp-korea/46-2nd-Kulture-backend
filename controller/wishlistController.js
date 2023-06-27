@@ -18,7 +18,7 @@ const createWishlist = catchAsync(async (req, res) => {
 
 const deleteWishlist = catchAsync(async (req, res) => {
   const userId = req.user.id;
-  const eventIds = req.params.eventIds.split(',');
+  const eventIds = req.params.eventIds.split(",");
 
   const deleteWishlist = await wishlistService.deleteWishlist(userId, eventIds);
 
@@ -27,8 +27,8 @@ const deleteWishlist = catchAsync(async (req, res) => {
 
 const getWishlist = catchAsync(async (req, res) => {
   const userId = req.user.id;
-
-  const wishlist = await wishlistService.getWishlist(userId);
+  const { limit, offset } = req.query;
+  const wishlist = await wishlistService.getWishlist(userId, limit, offset);
 
   res.status(200).json({ wishlist });
 });
