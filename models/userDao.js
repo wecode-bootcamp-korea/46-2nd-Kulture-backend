@@ -58,6 +58,7 @@ const userInfo = async (userId) => {
   try {
     const result = await appDataSource.query(`
       SELECT
+        id,
         nickname,
         profile_image_url,
         email,
@@ -78,9 +79,28 @@ const userInfo = async (userId) => {
         }
 }
 
+const updateUserInfo = async (nickname, profileImageUrl, userId) => {
+  try {
+    return await appDataSource.query(`
+      UPDATE users
+      SET 
+        nickname = ?,
+        profile_image_url = ? 
+      WHERE id = ?`,
+      [nickname, profileImageUrl, userId]
+      );
+  } catch (err) {
+    console.log(err);
+    const error = new Error("dataSource Error");
+    error.statusCode = 400;
+    throw error
+  }
+}
+
 module.exports = {
   getUserById,
   signUp,
   getUserByKakaoId,
-  userInfo
+  userInfo,
+  updateUserInfo
 };
