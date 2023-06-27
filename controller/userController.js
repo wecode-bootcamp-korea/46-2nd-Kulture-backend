@@ -28,7 +28,28 @@ const userInfo = catchAsync(async (req, res) => {
   return res.json(userInfo)
 })
 
+const updateUserInfo = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+
+  const requestBody = JSON.parse(req.body.data);
+  const { nickname } = requestBody;
+
+  const profileImageUrl = req.file.location;
+
+  if (!nickname || !profileImageUrl) {
+    const error = new Error("KEY_ERROR")
+    error.statusCode = 400;
+
+    throw error;
+  }
+
+  const userInfo = await userService.updateUserInfo(nickname, profileImageUrl, userId)
+
+  res.status(200).json({ message: "Update UserInfo" })
+  
+})
 module.exports = {
   signInKakao,
-  userInfo
+  userInfo,
+  updateUserInfo,
 };
