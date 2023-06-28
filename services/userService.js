@@ -57,6 +57,9 @@ const userInfo = async(userId) => {
 const updateUserInfo = async(nickname, profileImageUrl, userId) => {
   return await userDao.updateUserInfo(nickname, profileImageUrl, userId)
 }
+const tokenHistoryByUser = async(userId) => {
+  return await userDao.tokenHistoryByUser(userId)
+}
 
 module.exports = {
   signInKakao,
@@ -64,4 +67,5 @@ module.exports = {
   getUserByKakaoId,
   userInfo,
   updateUserInfo,
+  tokenHistoryByUser,
 };

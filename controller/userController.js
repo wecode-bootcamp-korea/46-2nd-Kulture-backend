@@ -48,8 +48,18 @@ const updateUserInfo = catchAsync(async (req, res) => {
   res.status(200).json({ message: "Update UserInfo" })
   
 })
+
+const tokenHistoryByUser = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+
+  const tokenHistoryByUser = await userService.tokenHistoryByUser(userId);
+
+  return res.json(tokenHistoryByUser)
+})
+
 module.exports = {
   signInKakao,
   userInfo,
   updateUserInfo,
+  tokenHistoryByUser,
 };
