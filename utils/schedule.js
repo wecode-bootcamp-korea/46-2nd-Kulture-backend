@@ -44,7 +44,7 @@ const scheduleJob = () => {
               UPDATE
                 Bid
               SET
-                bid_status_code = 'bid_Winning'
+                bid_status_code = 'BID_WINNING'
               WHERE
                 id = ?
             `, [bid.id]);
@@ -53,7 +53,7 @@ const scheduleJob = () => {
               UPDATE
                 Bid
               SET
-                bid_status_code = 'bid_Losing'
+                bid_status_code = 'BID_LOSING'
               WHERE
                 id = ?
             `, [bid.id]);
