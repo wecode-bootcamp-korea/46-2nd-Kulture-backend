@@ -63,7 +63,7 @@ const getEventList = async (
       .select(
         `
         e.id as event_id,
-        ROUND(e.start_events_token, 0) as startToken,
+        ROUND(e.start_events_token, 0) as start_events_token,
         ROUND(e.highest_events_token, 0) as highestToken,
         e.name as eventName,
         DATE_FORMAT(e.event_start_date, '%Y%-%m-%d') as eventStartDate,
