@@ -66,7 +66,7 @@ const getBidInfo = async (userId) => {
        events.name,
        events.id as event_id,
        events.location,
-       DATE_FORMAT(events.auction_start_date, "%Y-%m-%d") AS event_start_date,
+       DATE_FORMAT(events.event_start_date, "%Y-%m-%d") AS event_start_date,
        events.thumbnail_images_url as Image_url,
        DATE_FORMAT(events.auction_end_date, "%Y-%m-%d") AS auction_end_date,
        bid.quantity,

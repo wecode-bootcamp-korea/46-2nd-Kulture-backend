@@ -26,18 +26,16 @@ const getBidInfo = catchAsync(async (req, res) => {
 const createBid = catchAsync(async (req, res) => {
   try {
     const userId = req.user.id;
-    const { eventId, bidId, quantity, biddingEventsToken } = req.body;
+    const { eventId, quantity, biddingEventsToken } = req.body;
     const bidStatusCode = "BID_PENDING";
 
     const createBid = await bidService.createBid(
       userId,
       eventId,
-      bidId,
       quantity,
       biddingEventsToken,
       bidStatusCode
     );
-
     res.status(201).json({ message: " Create Bid " });
   } catch (error) {
     console.log(error);
