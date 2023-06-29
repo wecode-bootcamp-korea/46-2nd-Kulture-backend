@@ -21,6 +21,13 @@ const deleteReview = catchAsync(async(req, res) => {
       throw error;
     }
 
+    const review = await reviewService.getReviewById(reviewId);
+    if (review.user_id !== userId) {
+      const error = new Error("NOT_YOUR_REVIEW");
+      error.statusCode = 401;
+      throw error;
+    }
+
     await reviewService.deleteReview(userId, reviewId);
 
     res.status(204).json();
