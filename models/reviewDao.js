@@ -73,7 +73,7 @@ const createReview = async (userId, eventId, content, imageUrls) => {
   }
 };
 
-const deleteReview = async(userId, reviewId) => {
+const deleteReview = async(reviewId, userId) => {
   const queryRunner = appDataSource.createQueryRunner()
 
   await queryRunner.connect()
@@ -104,8 +104,22 @@ const deleteReview = async(userId, reviewId) => {
   }
 }
 
+const getReviewById = async (reviewId) => {
+  const review = await appDataSource.query(`
+    SELECT
+      id,
+      event_id,
+      user_id
+    FROM reviews
+    WHERE id = ?`, [id]
+  );
+
+  return review;
+};
+
 module.exports = {
   getReview,
   createReview,
   deleteReview,
+  getReviewById,
 };
