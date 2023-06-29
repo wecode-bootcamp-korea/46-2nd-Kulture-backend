@@ -1,39 +1,33 @@
 const appDataSource = require("./dataSource");
 
-const getReview = async (eventId, orderBy) => {
-    let sortQuery = ""
-    let whereQuery = "";
+const getReview = async (eventId) => {
+  let whereQuery = "";
 
-    if (eventId) {
-      whereQuery = `WHERE reviews.event_id = ${eventId}`;
-    }  
+  if (eventId) {
+    whereQuery = `WHERE reviews.event_id = ${eventId}`;
+  } 
 
-      switch (orderBy) {
-        case "createdASC":
-          sortQuery = `ORDER BY reviews.created_at ASC`
-          break;
-        default:
-          sortQuery = `ORDER BY reviews.created_at DESC`;
-          break;
-    }
+  const query = `
+    SELECT
+      reviews.id,
+      reviews.event_id,
+      reviews.user_id,
+      users.nickname,
+      reviews.content,
+      review_images.image_url,
+      reviews.created_at
+    FROM reviews
+    INNER JOIN users ON users.id = reviews.user_id
+    LEFT JOIN review_images ON reviews.id = review_images.review_id
+    ORDER BY reviews.created_at DESC
+    ${whereQuery}
+    `;
 
-    const list = await appDataSource.query(`
-      SELECT
-        reviews.id,
-        reviews.event_id,
-        reviews.user_id,
-        users.nickname,
-        reviews.content,
-        review_images.image_url
-      FROM reviews
-      INNER JOIN users ON users.id = reviews.user_id
-      INNER JOIN review_images ON reviews.id = review_images.id
-      ${whereQuery}
-      ${sortQuery}
-      `);
+  const list = await appDataSource.query(query);
 
-      return list
+  return list;
 };
+
 
 const createReview = async (userId, eventId, content, imageUrls) => {
   const queryRunner = appDataSource.createQueryRunner();
@@ -73,7 +67,7 @@ const createReview = async (userId, eventId, content, imageUrls) => {
   }
 };
 
-const deleteReview = async(reviewId, userId) => {
+const deleteReview = async(userId, reviewId) => {
   const queryRunner = appDataSource.createQueryRunner()
 
   await queryRunner.connect()
@@ -111,10 +105,10 @@ const getReviewById = async (reviewId) => {
       event_id,
       user_id
     FROM reviews
-    WHERE id = ?`, [id]
+    WHERE id = ?`, [reviewId]
   );
 
-  return review;
+  return review[0];
 };
 
 module.exports = {
