@@ -3,9 +3,8 @@ const { catchAsync } = require("../utils/error");
 
 const getReview = catchAsync(async (req, res) => {
   const { eventId } = req.params;
-  const { orderBy } = req.query;
 
-  const review = await reviewService.getReview(eventId, orderBy)
+  const review = await reviewService.getReview(eventId)
   res.status(200).json(review);
 });
 
@@ -22,7 +21,7 @@ const deleteReview = catchAsync(async(req, res) => {
     }
 
     const review = await reviewService.getReviewById(reviewId);
-    if (review.user_id !== userId) {
+    if (!review || review.user_id !== userId) {
       const error = new Error("NOT_YOUR_REVIEW");
       error.statusCode = 401;
       throw error;
