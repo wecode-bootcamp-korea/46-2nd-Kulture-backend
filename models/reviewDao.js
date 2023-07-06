@@ -19,8 +19,8 @@ const getReview = async (eventId) => {
     FROM reviews
     INNER JOIN users ON users.id = reviews.user_id
     LEFT JOIN review_images ON reviews.id = review_images.review_id
-    ORDER BY reviews.created_at DESC
     ${whereQuery}
+    ORDER BY reviews.created_at DESC
     `;
 
   const list = await appDataSource.query(query);
